@@ -84,3 +84,41 @@ GET: Get all issued books with their fine
 ## npm init
 ## npm i nodemon --save-dev
 ## npm run dev
+
+...each 
+## "name": "Jane", 
+## "surname": "Doe", 
+"email": "user@email.com", 
+"subscriptionType": "Premium", 
+"subscriptionDate": "01/01/2022"
+
+...data "data": { 
+        ## "name": "rohan", 
+        ## "surname": "kinnal"
+         }
+
+name: rohan 
+surname: kinnal 
+email: user@email.com 
+subscriptioType: "Premium"
+
+const index = users.indexOf(user); users.splice(index,1)
+
+var class = ["six", "seven", "eight"]; indexOf() class.indexOf("seven") 1
+
+new Date() 
+Fri Mar 10 2023 21:20:41 GMT+0530 (India Standard Time) 
+new Date("01/01/1999") 
+Fri Jan 01 1999 00:00:00 GMT+0530 (India Standard Time) 
+const date = new Date("01/01/1999"); 
+undefined 
+date
+Fri Jan 01 1999 00:00:00 GMT+0530 (India Standard Time) 
+Math.floor(date/1000606024); 
+79067145600000 
+Math.floor(date/(1000606024)); 
+10591 
+let dateNew = new Date(); 
+undefined 
+Math.floor(dateNew/(10006060*24)); 
+19426

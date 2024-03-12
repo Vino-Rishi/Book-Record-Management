@@ -134,4 +134,45 @@ router.delete('/users/:id',(req,res)=>{
     });
 })
 
+/**
+ * Route: /users/subscription-details/:id
+ * Method: GET
+ * Description: Get all user Subscription Details
+ * Access: Public
+ * Parameters: ID
+ */
+router.get('/users/subscription-details/:id',(req,res)=>{
+    const {id} = req.params;
+    console.log({id});
+    const user = users.find((each)=>each.id === id);
+    if(!user){
+        res.status(400).json({
+            success:false,
+            message:"User with the ID doesn't Exists"
+        });
+    }
+    const getDateInDays = (data = "")=> {
+        let date;
+        if(date === ""){
+            date = new Date();
+        }else {
+            date = new Date(data);
+        }
+        let days = Math.floor(data / (1000*60*60*24));
+        return days;
+    };
+    const subscriptionType = (date)=>{
+        if((user.subscriptionType = "basic")){
+            date = date + 90;
+        }
+        else if((user.subscriptionType = "standard")){
+            date = date + 180;
+        }
+        else if((user.subscriptionType = "premium")){
+            date = date + 365;
+        };
+        return date;
+    };
+});
+
 module.exports = router;

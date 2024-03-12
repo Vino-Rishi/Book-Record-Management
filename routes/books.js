@@ -42,13 +42,19 @@ router.get('/books/:id',(req,res)=>{
 /**
 *Routes: books
 *Method: POST
-*Description: Create a Books data
+*Description: Creating a new Books
 *Access : Public
-*Parameters: None
+*Data: id,name,author,genre,price,publisher
 */
 router.post('/books',(req,res)=>{
-    const {id,name,author,genre,price,publisher} = req.body;
-    const book = books.find((each)=>each.id===id);
+    const {data} = req.body;
+    if(!data){
+        res.status(404).json({
+            success:false,
+            message:"No Data To add a Book",
+        });
+    }
+    const book = books.find((each)=>each.id===data.id);
 
     if(book){
         res.status(404).json({
@@ -56,18 +62,12 @@ router.post('/books',(req,res)=>{
             message:"Book ID already Exists"
         });
     }
-    books.push({
-        id,
-        name,
-        author,
-        genre,
-        price,
-        publisher
-    });
+    //Using Spread Operator
+    const allBooks = {...books,data};
     return res.status(201).json({
         success:true,
-        message:"Book data Added",
-        data: books,
+        message:"Added Books Successfully",
+        data: allBooks,
     });    
 });
 
@@ -87,7 +87,7 @@ router.put('/books/:id',(req,res)=>{
     if(!book){
         res.status(404).json({
             success:false,
-            message:"Book ID not exists"
+            message:"Book ID doesn't exists"
         });
     }
     const updateBookData = books.map((each)=>{
@@ -99,9 +99,9 @@ router.put('/books/:id',(req,res)=>{
         };
         return each;
     });
-    return res.status(202).json({
+    return res.status(200).json({
         success:true,
-        message:"Updated Book Data",
+        message:"Updating a book by their ID",
         data: updateBookData
     });
 });
