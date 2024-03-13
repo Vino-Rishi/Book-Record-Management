@@ -151,28 +151,58 @@ router.get('/users/subscription-details/:id',(req,res)=>{
             message:"User with the ID doesn't Exists"
         });
     }
-    const getDateInDays = (data = "")=> {
+    const getDateInDays = (data = "") => {
         let date;
-        if(date === ""){
+        if(data === ""){
             date = new Date();
         }else {
             date = new Date(data);
         }
-        let days = Math.floor(data / (1000*60*60*24));
+        let days = Math.floor(date / (1000*60*60*24));
         return days;
     };
-    const subscriptionType = (date)=>{
-        if((user.subscriptionType = "basic")){
+    const subscriptionType = (date) =>{
+        if(user.subscriptionType === "basic"){
             date = date + 90;
         }
-        else if((user.subscriptionType = "standard")){
+        else if(user.subscriptionType === "standard"){
             date = date + 180;
         }
-        else if((user.subscriptionType = "premium")){
+        else if(user.subscriptionType === "premium"){
             date = date + 365;
         };
         return date;
     };
-});
+// Jan 1970 UTC
+    let returnDate = getDateInDays(user.returnDate);
+    let currentDate = getDateInDays();
+    let subscriptionDate = getDateInDays(user.subscriptionDate);
+    let subscriptionExpiration = getDateInDays(subscriptionDate);
+ 
+    console.log("ReturnDate:",returnDate);
+    console.log("CurrentDate:",currentDate);
+    console.log("SubscriptionDate:",subscriptionDate);
+    console.log("SubscriptionExpiration:",subscriptionExpiration);
+
+    const data = {
+       ...user,
+      isSubscriptionExpired: subscriptionExpiration < currentDate,
+      daysLeftForExpiration:
+        subscriptionExpiration <= currentDate
+        ? 0
+        : subscriptionExpiration - currentDate,
+    fine:
+    returnDate < currentDate
+        ? subscriptionExpiration <= currentDate
+            ? 100
+            : 50
+        : 0,
+    };
+    return res.status(200).json({
+        success:true,
+        message: "Subscripiton Details for the user is:",
+        data,
+    });
+}); 
 
 module.exports = router;
